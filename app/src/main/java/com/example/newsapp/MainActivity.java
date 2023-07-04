@@ -1,5 +1,6 @@
 package com.example.newsapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,9 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -33,6 +37,9 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
     float x1,x2;
 
     private CategoryRVAdapter categoryRVAdapter;
+
+    private FirebaseAuth firebaseAuth;
+    FirebaseAuth.AuthStateListener mAuthListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
                 startActivity(it);
             }
         });
+
 
     }
 
