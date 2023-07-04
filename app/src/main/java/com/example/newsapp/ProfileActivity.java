@@ -116,20 +116,20 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void passUserData(){
-        String userUsername = profileUsername.getText().toString().trim();
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("users");
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
-        Query checkUserDatabase = reference.orderByChild("username").equalTo(userUsername);
-
-        checkUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
 
-                    String nameFromDB = snapshot.child(userUsername).child("name").getValue(String.class);
-                    String emailFromDB = snapshot.child(userUsername).child("email").getValue(String.class);
-                    String usernameFromDB = snapshot.child(userUsername).child("username").getValue(String.class);
-                    String passwordFromDB = snapshot.child(userUsername).child("password").getValue(String.class);
+                    String nameFromDB = snapshot.child(userId).child("name").getValue(String.class);
+                    String emailFromDB = snapshot.child(userId).child("email").getValue(String.class);
+                    String usernameFromDB = snapshot.child(userId).child("username").getValue(String.class);
+                    String passwordFromDB = snapshot.child(userId).child("password").getValue(String.class);
+
+                    finish();
 
                     Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
 
