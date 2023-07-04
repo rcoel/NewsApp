@@ -4,10 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -21,10 +25,12 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
     //1fe9137d8c2049c2b80279081d305a0c
 
     private RecyclerView newsRV, categoryRV;
+    FloatingActionButton profileBtn;
     private ProgressBar loadingPB;
     private ArrayList<Articles> articlesArrayList;
     private ArrayList<CategoryRVModal> categoryRVModalArrayList;
     private NewsRVAdapter newsRVAdapter;
+    float x1,x2;
 
     private CategoryRVAdapter categoryRVAdapter;
     @Override
@@ -44,6 +50,16 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
         getCategories();
         getNews("All");
         newsRVAdapter.notifyDataSetChanged();
+
+        profileBtn=findViewById(R.id.profileButton);
+        profileBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent it = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(it);
+            }
+        });
 
     }
 
