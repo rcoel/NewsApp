@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,12 +21,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+
 public class ProfileActivity extends AppCompatActivity {
 
     TextView profileName, profileEmail, profileUsername, profilePassword;
     TextView titleName, titleUsername;
     Button editProfile;
 
+    ProgressBar progressBar;
 
 
     @Override
@@ -40,6 +44,7 @@ public class ProfileActivity extends AppCompatActivity {
         titleName = findViewById(R.id.titleName);
         titleUsername = findViewById(R.id.titleUsername);
         editProfile = findViewById(R.id.editButton);
+        progressBar = findViewById(R.id.idLoading);
 
         showUserData();
 
@@ -49,51 +54,65 @@ public class ProfileActivity extends AppCompatActivity {
                 passUserData();
             }
         });
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user!=null)
-            Toast.makeText(this, "User Present", Toast.LENGTH_LONG).show();
-        else
-            Toast.makeText(this, "User Absent", Toast.LENGTH_LONG).show();
-
-
     }
 
     public void showUserData(){
 
-        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("users");
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        databaseRef.child(userId).child("username").addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("users");
+
+        showLoadingIndicator();
+        databaseRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String username = snapshot.getValue(String.class);
-                if (snapshot.exists()) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                hideLoadingIndicator();
 
+                if (dataSnapshot.exists()) {
+                    HashMap<String, Object> userData = (HashMap<String, Object>) dataSnapshot.getValue();
 
-                    String nameFromDB = snapshot.child(username).child("name").getValue(String.class);
-                    String emailFromDB = snapshot.child(username).child("email").getValue(String.class);
-                    String usernameFromDB = snapshot.child(username).child("username").getValue(String.class);
-                    String passwordFromDB = snapshot.child(username).child("password").getValue(String.class);
+                    if (userData != null) {
+                        String username = (String) userData.get("username");
+                        String nameFromDB = (String) userData.get("name");
+                        String emailFromDB = (String) userData.get("email");
+                        String passwordFromDB = (String) userData.get("password");
 
-                    titleName.setText(nameFromDB);
-                    titleUsername.setText(usernameFromDB);
-                    profileName.setText(nameFromDB);
-                    profileEmail.setText(emailFromDB);
-                    profileUsername.setText(usernameFromDB);
-                    profilePassword.setText(passwordFromDB);
+                        titleName.setText(nameFromDB);
+                        titleUsername.setText(username);
+                        profileName.setText(nameFromDB);
+                        profileEmail.setText(emailFromDB);
+                        profileUsername.setText(username);
+                        profilePassword.setText(passwordFromDB);
 
+                        // Use the retrieved values as needed
+                    } else {
+                        // Handle the case where userData is null
+                        Toast.makeText(ProfileActivity.this, "Empty User Data", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    // Handle the case where the snapshot doesn't exist
+                    hideLoadingIndicator();
+                    Toast.makeText(ProfileActivity.this, "Empty Profile", Toast.LENGTH_SHORT).show();
                 }
-                // Use the retrieved username as needed
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle any error that occurs
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle any database error that occurred
+                Toast.makeText(ProfileActivity.this, "No User", Toast.LENGTH_SHORT).show();
             }
         });
 
 
+
+    }
+
+    private void hideLoadingIndicator() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    private void showLoadingIndicator() {
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     public void passUserData(){

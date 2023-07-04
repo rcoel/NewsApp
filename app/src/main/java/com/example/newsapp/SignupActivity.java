@@ -79,8 +79,9 @@ public class SignupActivity extends AppCompatActivity {
                     Toast.makeText(SignupActivity.this, "Sign up successful.", Toast.LENGTH_SHORT).show();
                     // Perform any additional actions, such as saving user data to the database
                     // or opening the main activity
+                    String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     HelperClass helperClass = new HelperClass(name, email, username, password);
-                    reference.child(username).setValue(helperClass);
+                    reference.child(userId).setValue(helperClass);
                     Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                     startActivity(intent);
                 } else {
