@@ -92,6 +92,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="Sign Up"
+                android:background="@drawable/lavender_border"
+                android:backgroundTint="@color/lavender"
                 android:id="@+id/signup_button"
                 android:textSize="18dp"
                 android:layout_marginTop="30dp"
