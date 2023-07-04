@@ -16,7 +16,7 @@ public class NewsDetailActivity extends AppCompatActivity {
     String title, desc, content, imageURL, url;
     private TextView titleTV,subDescTV,contentTV;
     private ImageView newsIV;
-    private Button readNewsBtn;
+    private Button readNewsBtn,shareButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +41,22 @@ public class NewsDetailActivity extends AppCompatActivity {
                 Intent i=new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 startActivity(i);
+            }
+        });
+        shareButton=(Button) findViewById(R.id.shareButton);
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, url);
+
+// (Optional) Here you're setting the title of the content
+                sendIntent.putExtra(Intent.EXTRA_TITLE, title);
+                sendIntent.setType("text/plain");
+
+
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                startActivity(shareIntent);
             }
         });
 

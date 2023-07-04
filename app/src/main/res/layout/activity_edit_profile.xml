@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@drawable/pagebg"
+    android:background="@drawable/bg3"
     tools:context=".EditProfileActivity">
 
     <androidx.cardview.widget.CardView
@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/black_shade"
             android:padding="24dp"
             android:background="@drawable/lavender_border">
 
@@ -44,7 +45,8 @@
                 android:hint="Name"
                 android:drawableLeft="@drawable/baseline_person_24"
                 android:drawablePadding="8dp"
-                android:textColor="@color/grey"/>
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -56,7 +58,8 @@
                 android:hint="Email"
                 android:drawableLeft="@drawable/baseline_email_24"
                 android:drawablePadding="8dp"
-                android:textColor="@color/grey"/>
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -68,7 +71,8 @@
                 android:hint="Username"
                 android:drawableLeft="@drawable/baseline_person_pin_24"
                 android:drawablePadding="8dp"
-                android:textColor="@color/grey"/>
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -81,7 +85,8 @@
                 android:inputType="textPassword"
                 android:drawableLeft="@drawable/baseline_lock_24"
                 android:drawablePadding="8dp"
-                android:textColor="@color/black"/>
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"/>
 
             <Button
                 android:layout_width="match_parent"

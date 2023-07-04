@@ -1,14 +1,16 @@
 package com.example.newsapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,11 +24,13 @@ public class ProfileActivity extends AppCompatActivity {
     TextView titleName, titleUsername;
     Button editProfile;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
+        FirebaseApp.initializeApp(this);
         profileName = findViewById(R.id.profileName);
         profileEmail = findViewById(R.id.profileEmail);
         profileUsername = findViewById(R.id.profileUsername);
@@ -43,23 +47,45 @@ public class ProfileActivity extends AppCompatActivity {
                 passUserData();
             }
         });
+
+
     }
 
     public void showUserData(){
 
-        Intent intent = getIntent();
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("users");
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        databaseRef.child(userId).child("username").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String username = snapshot.getValue(String.class);
+                if (snapshot.exists()) {
 
-        String nameUser = intent.getStringExtra("name");
-        String emailUser = intent.getStringExtra("email");
-        String usernameUser = intent.getStringExtra("username");
-        String passwordUser = intent.getStringExtra("password");
 
-        titleName.setText(nameUser);
-        titleUsername.setText(usernameUser);
-        profileName.setText(nameUser);
-        profileEmail.setText(emailUser);
-        profileUsername.setText(usernameUser);
-        profilePassword.setText(passwordUser);
+
+                    String nameFromDB = snapshot.child(username).child("name").getValue(String.class);
+                    String emailFromDB = snapshot.child(username).child("email").getValue(String.class);
+                    String usernameFromDB = snapshot.child(username).child("username").getValue(String.class);
+                    String passwordFromDB = snapshot.child(username).child("password").getValue(String.class);
+
+                    titleName.setText(nameFromDB);
+                    titleUsername.setText(usernameFromDB);
+                    profileName.setText(nameFromDB);
+                    profileEmail.setText(emailFromDB);
+                    profileUsername.setText(usernameFromDB);
+                    profilePassword.setText(passwordFromDB);
+
+                }
+                // Use the retrieved username as needed
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle any error that occurs
+            }
+        });
+
+
     }
 
     public void passUserData(){
