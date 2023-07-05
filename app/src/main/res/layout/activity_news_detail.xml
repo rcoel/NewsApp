@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg7"
+    android:background="@drawable/bg5"
     tools:context=".NewsDetailActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-smallcaps"
         android:padding="8dp"
-        android:text="News App"
+        android:text="News"
         android:textColor="@color/white"
         android:textSize="22sp"
         android:textStyle="bold" />

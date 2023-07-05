@@ -7,9 +7,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@drawable/bg3"
+    android:background="@drawable/bg10"
     tools:context=".LoginActivity">
 
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/news_icon_foreground" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
