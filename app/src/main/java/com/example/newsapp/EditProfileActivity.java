@@ -15,9 +15,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    EditText editName, editEmail, editUsername, editPassword;
+    EditText editName,editUsername;
     Button saveButton;
-    String nameUser, emailUser, usernameUser, passwordUser, userId;
+    String nameUser, usernameUser,userId;
     DatabaseReference reference;
 
     @Override
@@ -27,11 +27,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
         reference = FirebaseDatabase.getInstance().getReference("users");
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
         editName = findViewById(R.id.editName);
-        editEmail = findViewById(R.id.editEmail);
         editUsername = findViewById(R.id.editUsername);
-        editPassword = findViewById(R.id.editPassword);
         saveButton = findViewById(R.id.saveButton);
 
         showData();
@@ -39,7 +36,7 @@ public class EditProfileActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isNameChanged() || isEmailChanged() || isPasswordChanged()) {
+                if (isNameChanged() || isUsernameChanged()) {
                     Toast.makeText(EditProfileActivity.this, "Saved", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(EditProfileActivity.this, "No Changes Found", Toast.LENGTH_SHORT).show();
@@ -51,30 +48,18 @@ public class EditProfileActivity extends AppCompatActivity {
         });
     }
 
+    private boolean isUsernameChanged() {
+        if (!usernameUser.equals(editUsername.getText().toString())){
+            reference.child(userId).child("username").setValue(editUsername.getText().toString());
+            return true;
+        } else{
+            return false;
+        }
+    }
+
     public boolean isNameChanged(){
         if (!nameUser.equals(editName.getText().toString())){
             reference.child(userId).child("name").setValue(editName.getText().toString());
-            nameUser = editName.getText().toString();
-            return true;
-        } else{
-            return false;
-        }
-    }
-
-    public boolean isEmailChanged(){
-        if (!emailUser.equals(editName.getText().toString())){
-            reference.child(userId).child("email").setValue(editEmail.getText().toString());
-            emailUser = editEmail.getText().toString();
-            return true;
-        } else{
-            return false;
-        }
-    }
-
-    public boolean isPasswordChanged(){
-        if (!passwordUser.equals(editPassword.getText().toString())){
-            reference.child(userId).child("password").setValue(editPassword.getText().toString());
-            passwordUser = editPassword.getText().toString();
             return true;
         } else{
             return false;
@@ -85,13 +70,10 @@ public class EditProfileActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         nameUser = intent.getStringExtra("name");
-        emailUser = intent.getStringExtra("email");
         usernameUser = intent.getStringExtra("username");
-        passwordUser = intent.getStringExtra("password");
 
         editName.setText(nameUser);
-        editEmail.setText(emailUser);
         editUsername.setText(usernameUser);
-        editPassword.setText(passwordUser);
+
     }
 }

@@ -1,7 +1,7 @@
 package com.example.newsapp;
 
 public class HelperClass {
-    String name,email,username,password;
+    String name,email,username;
 
     public String getName() {
         return name;
@@ -27,19 +27,10 @@ public class HelperClass {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public HelperClass(String name, String email, String username, String password) {
+    public HelperClass(String name, String username, String email) {
         this.name = name;
-        this.email = email;
         this.username = username;
-        this.password = password;
+        this.email = email;
     }
 
     public HelperClass() {

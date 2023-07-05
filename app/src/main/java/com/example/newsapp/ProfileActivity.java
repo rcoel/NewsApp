@@ -27,7 +27,7 @@ import java.util.HashMap;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    TextView profileName, profileEmail, profileUsername, profilePassword;
+    TextView profileName, profileEmail, profileUsername;
     TextView titleName, titleUsername;
     Button editProfile, logout;
 
@@ -42,7 +42,6 @@ public class ProfileActivity extends AppCompatActivity {
         profileName = findViewById(R.id.profileName);
         profileEmail = findViewById(R.id.profileEmail);
         profileUsername = findViewById(R.id.profileUsername);
-        profilePassword = findViewById(R.id.profilePassword);
         titleName = findViewById(R.id.titleName);
         titleUsername = findViewById(R.id.titleUsername);
         editProfile = findViewById(R.id.editButton);
@@ -92,14 +91,12 @@ public class ProfileActivity extends AppCompatActivity {
                         String username = (String) userData.get("username");
                         String nameFromDB = (String) userData.get("name");
                         String emailFromDB = (String) userData.get("email");
-                        String passwordFromDB = (String) userData.get("password");
 
                         titleName.setText(nameFromDB);
                         titleUsername.setText(username);
                         profileName.setText(nameFromDB);
                         profileEmail.setText(emailFromDB);
                         profileUsername.setText(username);
-                        profilePassword.setText(passwordFromDB);
 
                         // Use the retrieved values as needed
                     } else {
@@ -142,19 +139,16 @@ public class ProfileActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
 
                     String nameFromDB = snapshot.child(userId).child("name").getValue(String.class);
-                    String emailFromDB = snapshot.child(userId).child("email").getValue(String.class);
                     String usernameFromDB = snapshot.child(userId).child("username").getValue(String.class);
-                    String passwordFromDB = snapshot.child(userId).child("password").getValue(String.class);
 
-                    finish();
+
 
                     Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
 
                     intent.putExtra("name", nameFromDB);
-                    intent.putExtra("email", emailFromDB);
                     intent.putExtra("username", usernameFromDB);
-                    intent.putExtra("password", passwordFromDB);
 
+                    finish();
                     startActivity(intent);
                 }
             }

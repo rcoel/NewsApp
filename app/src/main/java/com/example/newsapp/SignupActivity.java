@@ -80,7 +80,7 @@ public class SignupActivity extends AppCompatActivity {
                     // Perform any additional actions, such as saving user data to the database
                     // or opening the main activity
                     String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    HelperClass helperClass = new HelperClass(name, email, username, password);
+                    HelperClass helperClass = new HelperClass(name,username,email);
                     reference.child(userId).setValue(helperClass);
                     Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                     startActivity(intent);
