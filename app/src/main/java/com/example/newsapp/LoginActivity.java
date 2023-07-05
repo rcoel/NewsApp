@@ -1,12 +1,16 @@
 package com.example.newsapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView signupRedirectText;
 
     private FirebaseAuth mAuth;
+    TextView forgotPassword;
 
     SharedPreferences sharedPreferences;
 
@@ -44,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
         loginPassword = findViewById(R.id.login_password);
         signupRedirectText = findViewById(R.id.signupRedirectText);
         loginButton = findViewById(R.id.login_button);
+        forgotPassword=findViewById(R.id.forgot_password);
+
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +122,16 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+                startActivity(intent);
+                finish();
+
+            }
+        });
+
     }
 
 }
