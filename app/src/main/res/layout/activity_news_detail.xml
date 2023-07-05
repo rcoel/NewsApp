@@ -13,8 +13,17 @@
         android:layout_height="wrap_content"
 
         app:titleTextColor="@color/white"
-        android:id="@+id/toolbar"
-        app:title="News App"/>
+        android:id="@+id/toolbar"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-smallcaps"
+        android:padding="8dp"
+        android:text="News App"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
     <ScrollView
         android:layout_width="match_parent"
