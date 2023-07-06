@@ -177,12 +177,14 @@
             android:id="@+id/editButton"
             android:layout_width="300dp"
             android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
             android:backgroundTint="@color/blueshade"
             android:gravity="center"
             android:text="Edit Profile"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
             android:textSize="18sp"
-            app:cornerRadius="20dp"
-            android:layout_marginLeft="20dp"/>
+            app:cornerRadius="20dp" />
 
 
 
@@ -209,7 +211,9 @@
         android:layout_marginBottom="168dp"
         android:backgroundTint="@color/blueshade"
         android:text="Logout"
-        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:textSize="20sp"
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
