@@ -36,6 +36,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
     ActivityResultLauncher<Intent> imagePickerLauncher;
 
+    Boolean change=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +70,7 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 imagePickerLauncher.launch(intent);
+
             }
         });
         saveButton.setOnClickListener(new View.OnClickListener() {
