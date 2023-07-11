@@ -13,6 +13,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
@@ -32,6 +36,9 @@ public class ProfileActivity extends AppCompatActivity {
     Button editProfile, logout;
 
     ProgressBar progressBar;
+
+    ShapeableImageView pImg;
+
 
 
     @Override
@@ -46,10 +53,10 @@ public class ProfileActivity extends AppCompatActivity {
         titleUsername = findViewById(R.id.titleUsername);
         editProfile = findViewById(R.id.editButton);
         progressBar = findViewById(R.id.idLoading);
-
+        pImg = findViewById(R.id.profileImg);
         logout = findViewById(R.id.logoutButton);
 
-        showUserData();
+        showUserData(this);
 
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +79,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    public void showUserData(){
+    public void showUserData(Context context){
 
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("users");
@@ -91,12 +98,21 @@ public class ProfileActivity extends AppCompatActivity {
                         String username = (String) userData.get("username");
                         String nameFromDB = (String) userData.get("name");
                         String emailFromDB = (String) userData.get("email");
+                        String imageUrl = (String) userData.get("url");
+
+                        if (imageUrl == null){
+                            imageUrl = "https://firebasestorage.googleapis.com/v0/b/newsapp-2779f.appspot.com/o/images%2Fdefault_img?alt=media&token=cccb049b-7ad3-433e-8c39-fcef02e5baed";
+                        }
 
                         titleName.setText(nameFromDB);
                         titleUsername.setText(username);
                         profileName.setText(nameFromDB);
                         profileEmail.setText(emailFromDB);
                         profileUsername.setText(username);
+                        Glide.with(context)
+                                .load(imageUrl)
+                                .apply(RequestOptions.circleCropTransform())
+                                .into(pImg);
 
                         // Use the retrieved values as needed
                     } else {
@@ -140,6 +156,11 @@ public class ProfileActivity extends AppCompatActivity {
 
                     String nameFromDB = snapshot.child(userId).child("name").getValue(String.class);
                     String usernameFromDB = snapshot.child(userId).child("username").getValue(String.class);
+                    String imageUrl = snapshot.child(userId).child("url").getValue(String.class);
+
+                    if (imageUrl == null){
+                        imageUrl = "https://firebasestorage.googleapis.com/v0/b/newsapp-2779f.appspot.com/o/images%2Fdefault_img?alt=media&token=cccb049b-7ad3-433e-8c39-fcef02e5baed";
+                    }
 
 
 
@@ -147,6 +168,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                     intent.putExtra("name", nameFromDB);
                     intent.putExtra("username", usernameFromDB);
+                    intent.putExtra("url", imageUrl);
 
                     finish();
                     startActivity(intent);
